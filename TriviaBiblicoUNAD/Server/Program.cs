@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using TriviaBiblicoUNAD.Server.Datos;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<ApplicationDbContext>(op =>
+{
+    op.UseSqlServer(builder.Configuration.GetConnectionString("ConexSQLServer"));
+});
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
