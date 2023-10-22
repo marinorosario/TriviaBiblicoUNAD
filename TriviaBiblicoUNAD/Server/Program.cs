@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen(c =>{
     //c.SwaggerDoc("v1", new OpenApiInfo { Title = "TriviaBiblico", Version = "v1" });
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
 
 //Servicios del EQUIPO BackEnd
 
