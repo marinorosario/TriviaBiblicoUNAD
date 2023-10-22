@@ -1,0 +1,7 @@
+﻿<button class="@clase" @onclick="AlClickar">@Titulo</button>
+
+@code {
+    [Parameter] public string Titulo { get; set; } = string.Empty;
+    [Parameter] public string clase { get; set; } = string.Empty;
+    [Parameter] public EventCallback AlClickar { get; set; }
+}

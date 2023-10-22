@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(op =>
 {
-    op.UseSqlServer(builder.Configuration.GetConnectionString("ConexSQLServer"));
+    op.UseSqlServer(builder.Configuration.GetConnectionString("ConexSQLServer"))
+    .EnableSensitiveDataLogging();
 });
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen(c =>{
     //c.SwaggerDoc("v1", new OpenApiInfo { Title = "TriviaBiblico", Version = "v1" });
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
 
 //Servicios del EQUIPO BackEnd
 

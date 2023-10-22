@@ -1,0 +1,29 @@
+﻿.custom-loader {
+    width: 25px;
+    height: 25px;
+    display: grid;
+}
+
+    .custom-loader::before,
+    .custom-loader::after {
+        content: "";
+        grid-area: 1/1;
+        --c: radial-gradient(farthest-side,#766DF4 92%,#0000);
+        background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%, var(--c) 0 50%;
+        background-size: 6px 6px;
+        background-repeat: no-repeat;
+        animation: s2 1s infinite;
+    }
+
+    .custom-loader::before {
+        margin: 2px;
+        filter: hue-rotate(45deg);
+        background-size: 4px 4px;
+        animation-timing-function: linear
+    }
+
+@keyframes s2 {
+    100% {
+        transform: rotate(.5turn)
+    }
+}

@@ -1,0 +1,27 @@
+﻿<div class="list-group">
+    
+
+    @if (ListaObjetos is not null)
+    {
+        foreach(GrupoLista item in ListaObjetos)
+        {
+            <a href="@item.Enlace" class="list-group-item list-group-item-action @(item.IsActive ? "active": "")" aria-current="true">
+                @item.Titulo
+            </a>
+        }
+    }
+
+</div>
+
+@code {
+    public class GrupoLista
+    {
+        public bool IsActive { get; set; } = false;
+        public string Enlace { get; set; } = "#";
+        public string Titulo { get; set; } = string.Empty;
+    }
+
+
+    [Parameter]
+    public List<GrupoLista>? ListaObjetos { get; set; }
+}

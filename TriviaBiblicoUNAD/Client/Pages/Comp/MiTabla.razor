@@ -1,0 +1,36 @@
+﻿@typeparam TipoDato
+
+<table class="table table-hover">
+    <thead>
+        @Cabeza
+    </thead>
+    <tfoot>
+        @Pie
+    </tfoot>
+    <tbody>
+        @if (Cuerpo is not null)
+        {
+            if (Colecccion is not null)
+            {
+                foreach (var item in Colecccion)
+                {
+                    @Cuerpo(item);
+                }
+            }else
+            {
+                <tr>
+                    <th colspan="7">
+                        <Cargador />
+                    </th>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@code {
+    [Parameter] public RenderFragment? Cabeza { get; set; }
+    [Parameter] public RenderFragment? Pie { get; set; }
+    [Parameter] public RenderFragment<TipoDato>? Cuerpo { get; set; }
+
+    [Parameter] public ICollection<TipoDato>? Colecccion {get;set;}
+}

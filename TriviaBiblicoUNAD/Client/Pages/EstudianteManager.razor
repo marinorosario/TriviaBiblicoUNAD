@@ -1,0 +1,64 @@
+﻿@page "/estudiantes"
+@using TriviaBiblicoUNAD.Client.Pages.Comp
+@using TriviaBiblicoUNAD.Shared.DTOs.Estudiante;
+@using static TriviaBiblicoUNAD.Client.Pages.Comp.ListaGrupo;
+
+@inject HttpClient ClienteHttp;
+
+<PageTitle>Manejador de Estudiantes</PageTitle>
+<h3>Manejador de Estudiantes</h3>
+
+
+<a href="crear-estudiante" class="btn btn-outline-primary">Crear</a>
+<a href="estudiante-detalle/25">Detalles</a>
+
+<MiTabla TipoDato="EstudianteDTO" Colecccion="Estudiantes">
+    <Cabeza>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Matricula</th>
+            <th scope="col">Estudiante</th>
+            <th scope="col">Nacimiento</th>
+            <th scope="col">Carrera</th>
+            <th scope="col">Opciones</th>
+        </tr>
+    </Cabeza>
+    <Pie>
+        <tr>
+            <td colspan="7">
+
+                @if (Estudiantes is not null)
+                {
+                    <span>@Estudiantes.Length | Registros</span>
+                }
+
+            </td>
+        </tr>
+    </Pie>
+    <Cuerpo Context="estEnFila" >
+        <tr>
+            <th scope="row">@estEnFila.Id</th>
+            <td>@estEnFila.Matricula</td>
+            <td>@estEnFila.GetNombreCompleto</td>
+            <td>@estEnFila.FechNac (@estEnFila.Edad)</td>
+            <td>@estEnFila.Carrera</td>
+            <td>Detalles</td>
+        </tr>
+    </Cuerpo>
+</MiTabla>
+
+
+@code {
+    int costo = 24;
+
+
+    EstudianteDTO[]? Estudiantes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Estudiantes = await ClienteHttp.GetFromJsonAsync<EstudianteDTO[]>("api/estudiantes");
+
+        await base.OnInitializedAsync();
+    }
+
+}

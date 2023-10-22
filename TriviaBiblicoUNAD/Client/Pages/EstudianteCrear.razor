@@ -1,0 +1,71 @@
+﻿@page "/crear-estudiante"
+@using TriviaBiblicoUNAD.Shared.DTOs.Estudiante;
+
+@inject HttpClient Htc
+
+<EditForm class="row g-3" Model="ModeloEstudiante" OnValidSubmit="AlGudardar">
+    <DataAnnotationsValidator />
+    <div class="col-md-12">
+        <label for="matricula" class="form-label" placeholder="Ej.: 2020-0101">Matricula</label>
+        <InputText @bind-Value="ModeloEstudiante.Matricula" class="form-control" id="matricula" /> 
+        <small class="text-muted"><ValidationMessage For="@(()=> ModeloEstudiante.Matricula)" /></small>
+    </div>
+    <div class="col-md-6">
+        <label for="Nombre" class="form-label" placeholder="Escriba el Nombre">Nombre</label>
+        <InputText @bind-Value="ModeloEstudiante.Nombre" class="form-control" id="Nombre" />
+        <small class="text-muted"><ValidationMessage For="@(()=> ModeloEstudiante.Nombre)" /></small>
+    </div>
+    <div class="col-md-6">
+        <label for="Apllidos" class="form-label">Apllidos</label>
+        <InputText @bind-Value="ModeloEstudiante.Apellidos" class="form-control" id="Apllidos" />
+        <small class="text-muted"><ValidationMessage For="@(()=> ModeloEstudiante.Apellidos)" /></small>
+    </div>
+    <div class="col-6">
+        <label for="carrera" class="form-label">Carrera</label>
+        <InputSelect @bind-Value="ModeloEstudiante.Carrera" class="form-control" id="carrera">
+            <option value="" disabled selected>------------------------</option>
+            <option value="Ing. de Software">Ing. de Software</option>
+            <option value="Medicina">Medicina</option>
+            <option value="Odontologia">Odontologia</option>
+            <option value="Mercadeo">Mercadeo</option>
+        </InputSelect>
+    </div>
+    <div class="col-6">
+        <label for="dob" class="form-label">Fecha de Nacimiento</label>
+        <InputDate @bind-Value="ModeloEstudiante.FechNac" class="form-control" id="dob" />
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Crear</button>
+    </div>
+    <ValidationSummary />
+</EditForm>
+
+@if (IsLoading)
+{
+    <Cargador />
+    <small>Guardando....</small>
+}
+
+
+@code {
+    EstudianteInsertarDTO ModeloEstudiante = new();
+    bool IsLoading = false;
+
+    async Task AlGudardar()
+    {
+        IsLoading = true;
+        var resultado = await Htc.PostAsJsonAsync("api/estudiantes", ModeloEstudiante);
+        if (resultado is not null && resultado.IsSuccessStatusCode)
+        {
+            IsLoading = false;
+            LimpiarFormulario();
+        }
+    }
+
+
+    void LimpiarFormulario()
+    {
+        ModeloEstudiante = null!;
+        ModeloEstudiante = new();
+    }
+}
