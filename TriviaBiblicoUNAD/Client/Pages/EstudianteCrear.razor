@@ -3,7 +3,7 @@
 
 @inject HttpClient Htc
 
-<EditForm class="row g-3" Model="ModeloEstudiante" OnValidSubmit="AlGudardar">
+<EditForm class="row g-3" Model="ModeloEstudiante" OnValidSubmit="AlGuardar">
     <DataAnnotationsValidator />
     <div class="col-md-12">
         <label for="matricula" class="form-label" placeholder="Ej.: 2020-0101">Matricula</label>
@@ -46,12 +46,11 @@
     <small>Guardando....</small>
 }
 
-
 @code {
     EstudianteInsertarDTO ModeloEstudiante = new();
     bool IsLoading = false;
 
-    async Task AlGudardar()
+    async Task AlGuardar()
     {
         IsLoading = true;
         var resultado = await Htc.PostAsJsonAsync("api/estudiantes", ModeloEstudiante);
@@ -61,7 +60,6 @@
             LimpiarFormulario();
         }
     }
-
 
     void LimpiarFormulario()
     {
