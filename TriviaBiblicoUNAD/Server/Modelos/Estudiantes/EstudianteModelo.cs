@@ -24,6 +24,7 @@ namespace TriviaBiblicoUNAD.Server.Modelos.Estudiantes
 
         [DataType(DataType.MultilineText), StringLength(128)]
         public string? Carrera { get; set; }
+        public bool EstaBorrado { get; set; } = false;
 
         [NotMapped]
         public string GetNombreCompleto { 

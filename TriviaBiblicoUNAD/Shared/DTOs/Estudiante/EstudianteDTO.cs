@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace TriviaBiblicoUNAD.Shared.DTOs.Estudiante
@@ -24,7 +25,8 @@ namespace TriviaBiblicoUNAD.Shared.DTOs.Estudiante
         public DateTime? FechNac { get; set; }
 
         [DataType(DataType.MultilineText), StringLength(128)]
-        public string? Carrera { get; set; }
+        public string? Carrera { get; set; }        
+        public bool EstaBorrado { get; set; }
 
         public string? GetNombreCompleto { get; set; }
 
