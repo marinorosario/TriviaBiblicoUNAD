@@ -12,7 +12,7 @@ namespace TriviaBiblicoUNAD.Server.Datos
             //CreateMap<F,D>()
             CreateMap<EstudianteModelo, EstudianteDTO>().ReverseMap();
             CreateMap<EstudianteInsertarDTO, EstudianteModelo>();
-            CreateMap<EstudianteEditarDTO, EstudianteModelo>();
+            CreateMap<EstudianteEditarDTO, EstudianteModelo>();            
         }
     }
 }

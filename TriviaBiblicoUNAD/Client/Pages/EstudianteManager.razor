@@ -4,6 +4,7 @@
 @using static TriviaBiblicoUNAD.Client.Pages.Comp.ListaGrupo;
 
 @inject HttpClient ClienteHttp;
+@inject IJSRuntime JsR;
 
 <PageTitle>Manejador de Estudiantes</PageTitle>
 <h3>Manejador de Estudiantes</h3>
@@ -42,7 +43,11 @@
             <td>@estEnFila.GetNombreCompleto</td>
             <td>@estEnFila.FechNac (@estEnFila.Edad)</td>
             <td>@estEnFila.Carrera</td>
-            <td>Detalles</td>
+            <td>
+                <a href="estudiante-detalle/@estEnFila.Id" class="btn btn-sm btn-outline-info">Detalles</a>
+                <a href="estudiante/@estEnFila.Id/editar" class="btn btn-sm btn-outline-success">Editar</a>
+                <button type="button" class="btn btn-sm btn-outline-danger" @onclick="@(async () => await AlEliminar(estEnFila.Id, estEnFila.GetNombreCompleto) )">Eliminar</button>
+            </td>
         </tr>
     </Cuerpo>
 </MiTabla>
@@ -56,9 +61,35 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Estudiantes = await ClienteHttp.GetFromJsonAsync<EstudianteDTO[]>("api/estudiantes");
+        await TraerEstudiantesDesdelaBD();
 
         await base.OnInitializedAsync();
+    }
+
+    async Task TraerEstudiantesDesdelaBD()
+    {
+        Estudiantes = await ClienteHttp.GetFromJsonAsync<EstudianteDTO[]>("api/estudiantes");
+    }
+
+
+    async Task AlEliminar(int Id, string? nombre)
+    {
+        var resultadoConfirmacion = await JsR.InvokeAsync<bool>("confirm", $"Estas seguro de eliminar el estudiante: {nombre} ?");
+        if (resultadoConfirmacion)
+        {
+            var result = await ClienteHttp.DeleteFromJsonAsync<int>($"api/estudiantes/{Id}/sotfdelete");
+            if (result > 0)
+            {
+                await JsR.InvokeVoidAsync("alert", $"Registro: {nombre} Eliminado Satisfactoriamente...");
+                await TraerEstudiantesDesdelaBD();
+            }
+            else
+            {
+                await JsR.InvokeVoidAsync("alert", $"Error al intentar eliminar el registro: {nombre}");
+            }       
+        }  
+
+        await Task.FromResult(0);
     }
 
 }

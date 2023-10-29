@@ -23,6 +23,8 @@ namespace TriviaBiblicoUNAD.Server.Datos
         //Regsitro de Tablas
         public DbSet<EstudianteModelo> Estudiantes => Set<EstudianteModelo>();
 
+
+
         //Registro de Relaciones
        
         //Tablas temporales

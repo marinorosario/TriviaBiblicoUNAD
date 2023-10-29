@@ -1,13 +1,21 @@
-﻿@page "/crear-estudiante"
+﻿@page "/estudiante/{Id:int}/editar"
+
+@using AutoMapper
 @using TriviaBiblicoUNAD.Shared.DTOs.Estudiante;
 
 @inject HttpClient Htc
+@inject IMapper Mapeador
+@inject NavigationManager Navi
 
-<EditForm class="row g-3" Model="ModeloEstudiante" OnValidSubmit="AlGuardar">
+<PageTitle>Editar Estudiante</PageTitle>
+
+<h3>EstudianteModificar</h3>
+
+<EditForm class="row g-3" Model="ModeloEstudiante" OnValidSubmit="AlEditar">
     <DataAnnotationsValidator />
     <div class="col-md-12">
         <label for="matricula" class="form-label" placeholder="Ej.: 2020-0101">Matricula</label>
-        <InputText @bind-Value="ModeloEstudiante.Matricula" class="form-control" id="matricula" /> 
+        <InputText @bind-Value="ModeloEstudiante.Matricula" class="form-control" id="matricula" />
         <small class="text-muted"><ValidationMessage For="@(()=> ModeloEstudiante.Matricula)" /></small>
     </div>
     <div class="col-md-6">
@@ -39,26 +47,41 @@
         <button type="submit" class="btn btn-primary">Crear</button>
     </div>
     <ValidationSummary />
+
 </EditForm>
 
-@if (IsLoading)
-{
-    <Cargador />
-    <small>Guardando....</small>
-}
-
 @code {
-    EstudianteInsertarDTO ModeloEstudiante = new();
+    [Parameter] public int Id {get;set;}
+
+    EstudianteEditarDTO ModeloEstudiante = new();
     bool IsLoading = false;
 
-    async Task AlGuardar()
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (Id > 0)
+        {
+            ModeloEstudiante = Mapeador.Map<EstudianteEditarDTO>(await CargaEtudiante(Id));
+        }
+    }
+
+
+    async Task<EstudianteDTO?> CargaEtudiante(int idEst)
+    {
+        return await Htc.GetFromJsonAsync<EstudianteDTO?>($"api/estudiantes/{idEst}");
+    }
+
+
+    async Task AlEditar()
     {
         IsLoading = true;
-        var resultado = await Htc.PostAsJsonAsync("api/estudiantes", ModeloEstudiante);
+        var resultado = await Htc.PutAsJsonAsync($"api/estudiantes/{Id}", ModeloEstudiante);
         if (resultado is not null && resultado.IsSuccessStatusCode)
         {
             IsLoading = false;
             LimpiarFormulario();
+            Navi.NavigateTo("estudiantes");
         }
     }
 
@@ -67,4 +90,5 @@
         ModeloEstudiante = null!;
         ModeloEstudiante = new();
     }
+
 }
