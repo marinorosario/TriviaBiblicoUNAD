@@ -1,15 +1,36 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TriviaBiblicoUNAD.Server.Datos;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+string? LlaveJwt = builder.Configuration["jwtKey"];
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(op =>
+builder.Services.AddDbContextFactory<ApplicationDbContext>(op =>
 {
     op.UseSqlServer(builder.Configuration.GetConnectionString("ConexSQLServer"));
 });
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opciones => opciones.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(LlaveJwt ?? string.Empty)),
+        ClockSkew = TimeSpan.Zero
+    });
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
@@ -45,6 +66,8 @@ app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseRouting();
 
 

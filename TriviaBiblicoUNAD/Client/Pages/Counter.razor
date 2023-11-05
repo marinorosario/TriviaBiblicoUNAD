@@ -1,6 +1,43 @@
 ﻿@page "/counter"
+@using Microsoft.AspNetCore.Authorization;
+@using System.Security.Claims;
+
+@attribute [Authorize(Roles = "diligente, creador, admin")]
 
 <PageTitle>Counter</PageTitle>
+
+<AuthorizeView>
+    <Authorizing>
+        <p>Verificando usuario autenticado....</p>
+    </Authorizing>
+    <Authorized>
+
+     
+        <p>El usuario esta Autorizado a ver este mensaje</p>
+        @if (ClaimsUsuarioLogeado is not null && ClaimsUsuarioLogeado.Any())
+        {
+            <ul>
+                @foreach (var item in ClaimsUsuarioLogeado)
+                {
+                    <li>
+                        <span>@item.Issuer</span>
+                        <span>@item.Type</span>
+                        <span>@item.Value</span>
+                    </li>
+                }
+            </ul>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>El usuario no esta Autorizado</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <button class="btn btn-danger">Eliminar registro</button>
+    </Authorized>
+</AuthorizeView>
 
 <h1>Counter</h1>
 
@@ -11,8 +48,21 @@
 @code {
     private int currentCount = 0;
 
+    [CascadingParameter] Task<AuthenticationState>? authenticationStateTask { get; set; }
+    IEnumerable<Claim>? ClaimsUsuarioLogeado;
+
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (authenticationStateTask is not null)
+        {
+            ClaimsUsuarioLogeado = (await authenticationStateTask).User.Claims;
+        }
     }
 }
