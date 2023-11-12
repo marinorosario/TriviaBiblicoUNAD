@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriviaBiblicoUNAD.Server", "TriviaBiblicoUNAD\Server\TriviaBiblicoUNAD.Server.csproj", "{B0422CAA-3282-4223-8C66-E2495E62F7B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriviaBiblicoUNAD.Server", "TriviaBiblicoUNAD\Server\TriviaBiblicoUNAD.Server.csproj", "{B0422CAA-3282-4223-8C66-E2495E62F7B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriviaBiblicoUNAD.Client", "TriviaBiblicoUNAD\Client\TriviaBiblicoUNAD.Client.csproj", "{1431783D-BF18-4DEF-919F-6781B4D552ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriviaBiblicoUNAD.Client", "TriviaBiblicoUNAD\Client\TriviaBiblicoUNAD.Client.csproj", "{1431783D-BF18-4DEF-919F-6781B4D552ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriviaBiblicoUNAD.Shared", "TriviaBiblicoUNAD\Shared\TriviaBiblicoUNAD.Shared.csproj", "{BADDD3D4-D18F-450B-A06B-8AF60F487C4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriviaBiblicoUNAD.Shared", "TriviaBiblicoUNAD\Shared\TriviaBiblicoUNAD.Shared.csproj", "{BADDD3D4-D18F-450B-A06B-8AF60F487C4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
