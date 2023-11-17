@@ -1,0 +1,53 @@
+@page "/Create/Team"
+@using TriviaBiblicoUNAD.Shared.DTOs.Usuario
+@inject HttpClient Http
+
+<PageTitle>Crear equipo</PageTitle>
+
+<h3>Creacion de equipo</h3>
+
+<EditForm class="mb-3 mt-3" Model="_modelUser" OnInvalidSubmit="SaveUser">
+    <DataAnnotationsValidator/>
+    <label class="mb-6 form-label">
+        Nombre de equipo
+        <input type="text" class="form-control" placeholder="Los Santos...">
+    </label>
+    <label class="mb-6 form-label">
+        Iglesia
+        <input type="text" class="form-control" placeholder="Iglesia...">
+    </label>
+    <label class="mb-6 form-label">
+        Zona
+        <input type="text" class="form-control" placeholder="Zona...">
+    </label>
+    <label class="mb-6 form-label">
+        Logo
+        <input type="file" class="form-control">
+    </label>
+    <label class="mb-6 form-label">
+        Estado
+        <select class="form-select" aria-label="Default select example">
+            <option selected hidden>------</option>
+            <option value="activo">Activo</option>
+            <option value="desactivado">Desactivado</option>
+        </select>
+    </label>
+    @* <input type="button" class="btn btn-primary" value="Guardar" /> *@
+    <a class="btn btn-primary" href="/create/player">Crear mi equipo</a>
+</EditForm>
+
+
+@code {
+    UserInfoDTO _modelUser = new();
+
+    async Task SaveUser()
+    {
+        var result = await Http.PostAsJsonAsync("/api/Usuarios/crear", _modelUser);
+        if (result.IsSuccessStatusCode)
+        {
+            _modelUser = null!;
+            _modelUser = new();
+        }
+    }
+
+}
