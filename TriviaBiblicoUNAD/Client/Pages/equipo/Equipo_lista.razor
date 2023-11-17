@@ -1,0 +1,64 @@
+﻿@page "/Equipo-lista"
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/open-iconic/font/css/Equipo.css">
+    <title>Datos de equipo</title>
+
+
+</head>
+
+<body>
+
+    <header>
+    </header>
+
+    <div>
+        <div>
+            <div class="contenedor-formulario">
+                <header>
+                    <h1>Datos de equipo </h1>
+                </header>
+
+                <form>
+
+                    <input class="campo-texto" type="text" name="nombre" placeholder="Nombre" maxlength="20" required="" /><br />
+
+                    <input class="campo-texto" type="text" name="iglesia" placeholder="Iglesia" maxlength="20" required="" /><br />
+
+                    <input class="campo-texto" type="text" name="zona" placeholder="Zona" maxlength="20" required="" /><br />
+
+                    <input class="campo-texto" type="email" name="email" placeholder="Su email" maxlength="50" required="" /><br />
+
+                    <input class="campo-texto" type="text" name="logo" placeholder=" Nombre de Logo" maxlength="15" required="" /><br />
+
+
+                    <div>
+                        <label class="campo-texto" for="estado">Estado:</label>
+
+                        <select class="campo-texto" id="estado" name="estado">
+                            <option value="activo">Activo</option>
+                            <option value="desactivado">Desactivado</option> 
+                        </select>
+                    </div>
+     
+                    <input type="reset" value="Limpiar" class="borrar" />
+
+                    <input type="submit" value="Crear" class="submit" />
+
+
+                </form>
+
+                <footer>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+@code {
+
+}

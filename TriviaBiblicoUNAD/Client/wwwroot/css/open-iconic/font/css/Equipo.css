@@ -1,0 +1,88 @@
+﻿
+body {
+    background-color: white; /* estable el fondo negro*/
+}
+
+header h1 {
+    text-align: center; /*CENTRAR EL TEXTO */
+    font-size: 24px; /*TAMAÑO DE LETRA*/
+    font-weight: bold; /*NEGRITAS*/
+}
+
+.contenedor-formulario {
+    position: relative;
+    margin: 50px auto; /*CENTRA EL FORMULARIO DE FORMA HORIZONTAL Y DA UN MARGEN SUPERIOR E INFERORO DE 50 PX*/
+    width: 300px; /*DA UN ANCHO FIJO DE 400PX AL CONTENEDOR DEL FORMULARIO*/
+}
+
+form {
+    text-align: center; /*ALINEANDO TODOS LOS ELEMENTOS AL CENTRO DEL FORMULARIO*/
+}
+
+.campo-texto {
+    width: 320px; /*TAMAÑO DEL INPUT */
+    height: 45px; /*ALTURA DEL INPUT*/
+    padding: 10px; /*ESPACIO QUE DEJA ENTRE EL BORDE DEL INPUT Y LA LETRA ESCRITA DENTRO DEL INPUT*/
+    padding-left: 50px; /*ESPACIO QUE SE DA AL LADO IZQUIERDO*/
+    margin-top: 20px; /*MARGEN SUPERIOR CON RESPECTO DEL ELEMENTO QUE SE ENCUENTRE POR ENCIMA*/
+    font-weight: bolder; /*NEGRITAS*/
+    text-align: left; /*ALINEACION DEL TEXTO*/
+}
+
+
+
+.submit {
+    width: 100px;
+    margin-top: 20px;
+    display: inline-block;
+    height: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.borrar {
+    width: 100px;
+    margin-top: 20px;
+    display: inline-block;
+    height: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+a {
+    text-decoration: none;
+    margin-top: 22px;
+    display: inline-block;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+footer {
+    height: 50px;
+    text-align: center;
+    line-height: 1.8;
+}
+
+    footer span {
+        display: inline-block;
+        text-align: left;
+        height: 40px;
+        width: 210px;
+        line-height: 40px;
+        margin-top: 5px;
+    }
+
+.boton {
+    width: 150px;
+    height: 40px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
