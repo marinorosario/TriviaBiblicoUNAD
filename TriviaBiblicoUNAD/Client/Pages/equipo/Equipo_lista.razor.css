@@ -1,5 +1,5 @@
 ﻿
-body {
+.cuerpo {
     background-color: white; /* estable el fondo negro*/
 }
 
@@ -85,4 +85,3 @@ footer {
     font-size: 18px;
     cursor: pointer;
 }
-
