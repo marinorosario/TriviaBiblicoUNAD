@@ -1,0 +1,54 @@
+﻿@page "/Participantes-lista"
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="~/css/open-iconic/font/css/Participanteslista.css">
+    <title>Datos del Participantes</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>Registro de participantes</h1>
+    </header>
+
+    <form method="post">
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div>
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+        </div>
+        <div>
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+        </div>
+        <div>
+            <label for="sexo">Sexo:</label>
+            <input type="radio" id="masculino" name="sexo" value="Masculino" required>
+            <label for="masculino">Masculino</label>
+            <input type="radio" id="femenino" name="sexo" value="Femenino" required>
+            <label for="femenino">Femenino</label>
+        </div>
+        <div>
+            <label for="equipo">Equipo:</label>
+            <select id="equipo" name="equipo" required>
+                <option value="Equipo A">Equipo A</option>
+                <option value="Equipo B">Equipo B</option>
+                <option value="Equipo C">Equipo C</option>
+                <option value="Equipo D">Equipo D</option>
+            </select>
+        </div>
+        <input type="submit" value="Enviar">
+        <input type="reset" value="limpiar">
+    </form>
+</body>
+</html>
+@code {
+
+}
