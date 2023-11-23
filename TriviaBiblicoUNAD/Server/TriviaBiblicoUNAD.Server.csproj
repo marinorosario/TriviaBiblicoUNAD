@@ -27,10 +27,5 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Client\TriviaBiblicoUNAD.Client.csproj" />
-    <ProjectReference Include="..\Shared\TriviaBiblicoUNAD.Shared.csproj" />
-  </ItemGroup>
-
 
 </Project>
