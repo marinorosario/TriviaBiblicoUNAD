@@ -1,8 +1,11 @@
 ﻿@page "/participantes-lista"
 @using SNashENGINE.Share.DTOs.Participantes
 
-@attribute [StreamRendering]
+@* @attribute [StreamRendering] *@
 @rendermode InteractiveAuto
+
+
+<a href="participante-crear" class="btn btn-outline-primary">Crear</a>
 
 <header>
     <h1>Registro de participantes</h1>
@@ -12,7 +15,7 @@
     <DataAnnotationsValidator />
     <div>
         <label for="nombre">Nombre:</label>
-        <InputText @bind-Value="ParticipanteDTO.Nombre" id="nombre" class="formInput" />
+        <InputText @bind-Value="ParticipanteDTO.Nombre" id="nombre" class="form-control" />
         <small><ValidationMessage For="@(() => ParticipanteDTO.Nombre)" /></small>
     </div>
     <div>

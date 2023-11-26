@@ -1,5 +1,116 @@
-﻿<h3>ParticipanteCrear</h3>
+﻿@page "/participante-crear"
+@using SNashENGINE.Share
+@using SNashENGINE.Share.Componentes
+@using SNashENGINE.Share.DTOs.Equipo
+@using SNashENGINE.Share.DTOs.Participantes
+@using SNashENGINE.Share.Datos
+
+@attribute [StreamRendering]
+
+<h3>Crear Participante</h3>
+
+@if (IsLoading)
+{
+    <Cargador />
+}else
+{
+    <EditForm EditContext="EditarContexto" FormName="registoParticipante" method="post" OnValidSubmit="AlSometerForm" Enhance="true">
+        <DataAnnotationsValidator />
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="ParticipanteDTO.Nombre" id="nombre" class="form-control" placeholder="Nombre" />
+            <label for="nombre">Nombre</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="ParticipanteDTO.Apellidos" id="apellidos" class="form-control" placeholder="Apellido" />
+            <label for="apellidos">Apellido:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <InputDate @bind-Value="ParticipanteDTO.FechaNac" id="fechaNacimiento" class="form-control" placeholder="Fecha de Nacimiento" />
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        </div>
+
+        <InputRadioGroup Name="Sexo" @bind-Value="ParticipanteDTO.Sexo">
+            <label for="sexo">Sexo:</label>
+            <div class="form-check">
+                <InputRadio Name="Sexo" class="form-check-input" Value="eSexo.Masculino" id="masculino" />
+                <label class="form-check-label" for="masculino">
+                    Masculino
+                </label>
+            </div>
+            <div class="form-check">
+                <InputRadio Name="Sexo" class="form-check-input" Value="eSexo.Femenino" id="femenino" />
+                <label class="form-check-label" for="femenino">
+                    Femenino
+                </label>
+            </div>
+        </InputRadioGroup>
+
+        <div class="form-floating m-3">
+            <InputSelect @bind-Value="ParticipanteDTO.EquipoId" class="form-select" id="equipoSelect" aria-label="Selecciona un equipo">
+                <option selected>Selecciona un equipo...</option>
+                @if (EquiposDto is not null)
+                {
+                    @foreach (var item in EquiposDto)
+                    {
+                        <option value="@item.Id">@item.Nombre</option>
+                    }
+                }
+            </InputSelect>
+            <label for="equipoSelect">Selecciona un equipo</label>
+        </div>
+        <button type="submit" class="btn btn-info">Enviar</button>
+        <button type="reset" class="btn btn-warning">Limpiar</button>
+    </EditForm>
+}
+
+
+@inject HttpClient HtpC
+@inject NavigationManager Navi
 
 @code {
+    [SupplyParameterFromForm]
+    ParticipanteInsertarDTO ParticipanteDTO { get; set; } = new ParticipanteInsertarDTO();
 
+    EditContext? EditarContexto;
+    EquipoDTO[]? EquiposDto;
+
+    bool IsLoading = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        EditarContexto = new(ParticipanteDTO);
+
+        if (HtpC.BaseAddress is null)
+        {
+            HtpC.BaseAddress = new Uri(Navi.BaseUri);
+        }
+
+        RequestData<EquipoDTO[]>? EquiposRequest = await HtpC.GetFromJsonAsync<RequestData<EquipoDTO[]>>("equipos");
+        if (EquiposRequest is not null && EquiposRequest.IsSuccess)
+        {
+            EquiposDto = EquiposRequest.Data;
+        }else
+        {
+            EquiposDto ??= Enumerable.Empty<EquipoDTO>().ToArray();
+        }
+
+
+        await base.OnInitializedAsync();
+    }
+
+    // protected override Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     IsLoading = false;
+
+
+    //     return base.OnAfterRenderAsync(firstRender);
+    // }
+
+    void AlSometerForm()
+    {
+        IsLoading = true;
+    }
 }

@@ -20,8 +20,8 @@ namespace SNashENGINE.Share.DTOs.Participantes
         public DateOnly? FechaNac { get; set; }
 
         [EnumDataType(typeof(eSexo))]
-        public eSexo Sexo { get; set; }
+        public eSexo? Sexo { get; set; }
 
-        public int EquipoId { get; set; }
+        public int? EquipoId { get; set; }
     }
 }
