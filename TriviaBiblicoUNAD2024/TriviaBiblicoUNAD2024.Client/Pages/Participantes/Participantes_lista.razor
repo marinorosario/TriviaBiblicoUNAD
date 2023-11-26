@@ -1,32 +1,38 @@
 ﻿@page "/participantes-lista"
+@using SNashENGINE.Share.DTOs.Participantes
+
+@attribute [StreamRendering]
+@rendermode InteractiveAuto
 
 <header>
     <h1>Registro de participantes</h1>
 </header>
 
-<form method="post">
+<EditForm method="post" Model="ParticipanteDTO" OnValidSubmit="AlSometerForm" FormName="RegistroParticipantes">
+    <DataAnnotationsValidator />
     <div>
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <InputText @bind-Value="ParticipanteDTO.Nombre" id="nombre" class="formInput" />
+        <small><ValidationMessage For="@(() => ParticipanteDTO.Nombre)" /></small>
     </div>
     <div>
         <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required>
+        <input type="text" id="apellido" name="apellido" class="formInput">
     </div>
     <div>
         <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+        <input type="date" id="fechaNacimiento" name="fechaNacimiento">
     </div>
     <div>
         <label for="sexo">Sexo:</label>
-        <input type="radio" id="masculino" name="sexo" value="Masculino" required>
+        <input type="radio" id="masculino" name="sexo" value="Masculino">
         <label for="masculino">Masculino</label>
-        <input type="radio" id="femenino" name="sexo" value="Femenino" required>
+        <input type="radio" id="femenino" name="sexo" value="Femenino">
         <label for="femenino">Femenino</label>
     </div>
     <div>
         <label for="equipo">Equipo:</label>
-        <select id="equipo" name="equipo" required>
+        <select id="equipo" name="equipo" class="formInput">
             <option value="Equipo A">Equipo A</option>
             <option value="Equipo B">Equipo B</option>
             <option value="Equipo C">Equipo C</option>
@@ -35,8 +41,15 @@
     </div>
     <input type="submit" value="Enviar">
     <input type="reset" value="limpiar">
-</form>
+    <ValidationSummary />
+</EditForm>
 
 @code {
+    [SupplyParameterFromForm]
+    ParticipanteInsertarDTO ParticipanteDTO { get; set; } = new ParticipanteInsertarDTO();
 
+    void AlSometerForm()
+    {
+        
+    }
 }
