@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <Folder Include="Data\Modelos\Asesores\" />
+    <Folder Include="Servicios\Equipos\" />
+    <Folder Include="Servicios\Participantes\" />
   </ItemGroup>
 
 </Project>
