@@ -5,6 +5,11 @@ using TriviaBiblicoUNAD2024.Client.Pages;
 using TriviaBiblicoUNAD2024.Components;
 using TriviaBiblicoUNAD2024.Components.Account;
 using TriviaBiblicoUNAD2024.Data;
+using TriviaBiblicoUNAD2024.Data.Modelos.Equipos;
+using TriviaBiblicoUNAD2024.Data.Modelos.Participantes;
+using TriviaBiblicoUNAD2024.Servicios.Equipos;
+using TriviaBiblicoUNAD2024.Servicios.Interfaces;
+using TriviaBiblicoUNAD2024.Servicios.Participantes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +31,7 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -40,6 +45,10 @@ builder.Services.AddControllers();
 //builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+//Servicios
+builder.Services.AddScoped<IDataEngineService<EquipoModel>, EquipoService>();
+builder.Services.AddScoped<IDataEngineService<ParticipanteModel>, ParticipanteService>();
 
 var app = builder.Build();
 

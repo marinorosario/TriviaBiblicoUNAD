@@ -1,0 +1,5 @@
+﻿@TriviaBiblicoUNAD2024_HostAddress = https://localhost:7040
+
+GET {{TriviaBiblicoUNAD2024_HostAddress}}/api/equipos
+
+###

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using SNashENGINE.Share.Datos;
 using SNashENGINE.Share.DTOs.Equipo;
+using SNashENGINE.Share.DTOs.Participantes;
 using TriviaBiblicoUNAD2024.Data.Modelos.Equipos;
+using TriviaBiblicoUNAD2024.Servicios.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,12 +14,20 @@ namespace TriviaBiblicoUNAD2024.Api
     [ApiController]
     public class EquiposController : ControllerBase
     {
+        private readonly IDataEngineService<EquipoModel> EquipoSrv;
+
+        public EquiposController(IDataEngineService<EquipoModel> _equipoSrv)
+        {
+            EquipoSrv = _equipoSrv;
+        }
+
+
         // GET: api/<EquiposController>
         [HttpGet]
-        public ActionResult<RequestData<IEnumerable<EquipoDTO>>> Get()
+        public async Task<ActionResult<RequestData<IEnumerable<EquipoDTO>>>> Get()
         {
             //Ejemplo de datos que vienen de la BD
-            var EquiposModeloFromDb = Enumerable.Empty<EquipoModel>();
+            var EquiposModeloFromDb = await EquipoSrv.GetAllAsync();
             RequestData<IEnumerable<EquipoDTO>> ResultadoRequest = new RequestData<IEnumerable<EquipoDTO>>();
 
             if (EquiposModeloFromDb is null)
@@ -50,8 +60,9 @@ namespace TriviaBiblicoUNAD2024.Api
 
         // POST api/<EquiposController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] EquipoInsertarDTO? EquipoDto)
         {
+           
         }
 
         // PUT api/<EquiposController>/5

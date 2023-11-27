@@ -16,12 +16,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
+    <PackageReference Include="Radzen.Blazor" Version="4.21.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\Modelos\Asesores\" />
-    <Folder Include="Servicios\Equipos\" />
-    <Folder Include="Servicios\Participantes\" />
   </ItemGroup>
 
 </Project>
