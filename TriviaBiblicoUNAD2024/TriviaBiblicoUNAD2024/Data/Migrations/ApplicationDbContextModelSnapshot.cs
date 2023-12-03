@@ -283,7 +283,6 @@ namespace TriviaBiblicoUNAD2024.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UsuarioId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -407,9 +406,7 @@ namespace TriviaBiblicoUNAD2024.Migrations
 
                     b.HasOne("TriviaBiblicoUNAD2024.Data.ApplicationUser", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Equipo");
 
