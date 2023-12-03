@@ -2,6 +2,8 @@
 {
     public interface IDataEngineService<T>
     {
+        //event Action? OnRefesh;
+        //ICollection<T> AllData { get; set; }
         IQueryable<T> GetQueriable { get; }
 
         Task<ICollection<T>> GetAllAsync();
@@ -14,6 +16,5 @@
         Task<int> DeleteAsync(IEnumerable<T> entities);
         Task<int> DeleteAsync(int? Id);
         Task<int> DeleteAsync(IEnumerable<int>? ids);
-
     }
 }

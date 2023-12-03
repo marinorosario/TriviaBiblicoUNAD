@@ -7,7 +7,6 @@ namespace TriviaBiblicoUNAD2024.Data.Modelos.Rounds
     [Table("Rounds")]
     public class RoundModel
     {
-
         [Key] //Clave primaria para la table ne la Base de Datos
         public int Id { get; set; }
 

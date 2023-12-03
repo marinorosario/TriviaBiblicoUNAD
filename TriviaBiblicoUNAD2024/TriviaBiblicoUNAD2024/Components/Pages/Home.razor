@@ -1,7 +1,88 @@
 ﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using TriviaBiblicoUNAD2024.Data
+@using TriviaBiblicoUNAD2024.Data.Modelos.Equipos
+
+@inject ApplicationDbContext BaseDeDatos
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+@if (Equipos is not null)
+{
+    <ul>
+        @foreach (var equipo in Equipos)
+        {
+            <li>@equipo.Nombre | @equipo.Iglesia | @equipo.Zona </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Cargando....</p>
+}
+
+
+@code{
+    EquipoModel? ModeloEquipo;
+    ICollection<EquipoModel>? Equipos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        //Insertar en la Db
+        // ModeloEquipo = new EquipoModel
+        // {
+        //     Nombre = "Luz de Esperanza",
+        //     Iglesia = "Esmirna SFM",
+        //     Logo = "luzLogo.jpg",
+        //     Estado = true,
+        //     Zona = "Zona 3"
+        // };
+
+        // await BaseDeDatos.Equipos.AddAsync(ModeloEquipo);
+        // await BaseDeDatos.SaveChangesAsync();
+
+
+        //Leer de la Db
+        //Equipos = BaseDeDatos.Equipos.ToList();
+
+        //Leer Por Un Id
+        // var Resultado = BaseDeDatos.Equipos.FirstOrDefault(x => x.Zona !=null && x.Zona.Contains("Zona 3"));
+        // int a = 10;
+
+        //Actualizar
+        // var ParaModificar = await BaseDeDatos.Equipos.FindAsync(5);
+        // if (ParaModificar is not null)
+        // {
+        //     ParaModificar.Nombre = "Equipo D";
+        //     ParaModificar.Iglesia = "Equipo D";
+        //     ParaModificar.Zona = "Equipo D";
+        //     ParaModificar.Logo = "Equipo D";
+
+        //     BaseDeDatos.Equipos.Update(ParaModificar);
+        //     if (await BaseDeDatos.SaveChangesAsync() > 0)
+        //     {
+        //         Equipos = BaseDeDatos.Equipos.ToList();            
+        //     }
+        // }
+
+
+
+        //Eliminar
+        // var ParaEliminar = await BaseDeDatos.Equipos.FindAsync(5);
+        // if (ParaEliminar is not null)
+        // {
+        //     BaseDeDatos.Equipos.Remove(ParaEliminar);
+        //     if (await BaseDeDatos.SaveChangesAsync() > 0)
+        //     {
+        //         Equipos = BaseDeDatos.Equipos.ToList();
+        //     }
+        // }
+
+    }
+}

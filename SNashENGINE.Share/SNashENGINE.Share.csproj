@@ -16,4 +16,8 @@
     <PackageReference Include="Radzen.Blazor" Version="4.21.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Concurso\" />
+  </ItemGroup>
+
 </Project>
