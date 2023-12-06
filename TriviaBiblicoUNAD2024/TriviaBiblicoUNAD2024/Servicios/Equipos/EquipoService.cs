@@ -101,7 +101,7 @@ namespace TriviaBiblicoUNAD2024.Servicios.Equipos
             return null;
         }
 
-        public async Task<ICollection<EquipoModel>> GetByIdAsync(IEnumerable<int>? ids)
+        public async Task<ICollection<EquipoModel?>> GetByIdAsync(IEnumerable<int>? ids)
         {
             ApplicationDbContext DbContext = await dbContextFactory.CreateDbContextAsync();
             if (ids is not null && ids.Count() > 0)

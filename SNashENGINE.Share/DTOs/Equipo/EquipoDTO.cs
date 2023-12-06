@@ -11,5 +11,7 @@ namespace SNashENGINE.Share.DTOs.Equipo
     {
         [Key]
         public int Id { get; set; }
+
+        public bool Estado { get; set; }
     }
 }

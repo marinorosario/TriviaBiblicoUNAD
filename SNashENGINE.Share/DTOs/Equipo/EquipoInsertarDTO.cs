@@ -21,11 +21,6 @@ namespace SNashENGINE.Share.DTOs.Equipo
         [StringLength(128)]
         public string? Logo { get; set; }
 
-        public bool Estado { get; set; }
-
-        public EquipoInsertarDTO()
-        {
-            Estado = false;
-        }
+        
     }
 }
