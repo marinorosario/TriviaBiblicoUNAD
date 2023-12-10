@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Components.QuickGrid
+@using TriviaBiblicoUNAD2024.Data.Modelos.Equipos
+@using TriviaBiblicoUNAD2024.Servicios.Interfaces
+
+@inject IDataEngineService<EquipoModel> EquipoSrv
+
+<QuickGrid Items="EquiposQ" Theme="default" Class="table table-hover">
+    <PropertyColumn Property="@(x => x.Nombre)" Title="Equipo" Sortable="true" />
+    <PropertyColumn Property="@(x => x.Iglesia)" Title="Iglesia" Sortable="true" />
+    <PropertyColumn Property="@(x => x.Zona)" Title="Zona" Sortable="true" />
+    <TemplateColumn>
+        <a href="@context.Id/equipo-editar" class="btn btn-sm btn-primary">Editar</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    IQueryable<EquipoModel>? EquiposMaster;
+    IQueryable<EquipoModel>? EquiposQ;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        EquiposMaster = EquipoSrv.GetQueriable;
+        EquiposQ = EquiposMaster;
+    }
+}

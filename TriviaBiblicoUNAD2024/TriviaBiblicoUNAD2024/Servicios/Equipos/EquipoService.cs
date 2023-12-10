@@ -87,7 +87,7 @@ namespace TriviaBiblicoUNAD2024.Servicios.Equipos
         public async Task<ICollection<EquipoModel>> GetAllAsync()
         {
             ApplicationDbContext DbContext = await dbContextFactory.CreateDbContextAsync();
-            return await DbContext.Equipos.ToListAsync();
+            return await DbContext.Equipos.Where(x => x.Estado == true).ToListAsync();
         }
 
         public async Task<EquipoModel?> GetByIdAsync(int? id)

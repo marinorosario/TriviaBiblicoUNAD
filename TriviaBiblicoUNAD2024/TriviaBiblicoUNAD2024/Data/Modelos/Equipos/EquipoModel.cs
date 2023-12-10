@@ -22,11 +22,14 @@ namespace TriviaBiblicoUNAD2024.Data.Modelos.Equipos
         [StringLength(128)]
         public string? Logo { get; set; }
 
+        [StringLength(24)]
+        public string? LogoExtension { get; set; }
+
         public bool Estado { get; set; }
 
         public EquipoModel()
         {
-            Estado = false;
+            Estado = true;
         }
     }
 }

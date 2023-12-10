@@ -21,6 +21,8 @@ namespace SNashENGINE.Share.DTOs.Equipo
         [StringLength(128)]
         public string? Logo { get; set; }
 
+        public string? LogoExtension { get; set; }
+
         
     }
 }

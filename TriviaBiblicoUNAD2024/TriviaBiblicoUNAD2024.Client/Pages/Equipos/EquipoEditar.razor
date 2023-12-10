@@ -1,0 +1,193 @@
+﻿@page "/{IdEquipo:int}/equipo-editar"
+
+@using SNashENGINE.Share.DTOs.Archivos
+@using SNashENGINE.Share.DTOs.Equipo
+@using System.Net.Http.Headers
+@using SNashENGINE.Share.Datos
+@using SNashENGINE.Share.Componentes
+
+@inject HttpClient Http
+@inject NavigationManager Navi
+@inject IJSRuntime JS
+@inject ILogger<EquipoEditar> Logger
+
+@attribute [StreamRendering]
+@rendermode InteractiveAuto
+
+<PageTitle>Editar Equipo</PageTitle>
+
+<h4>Editar Equipo</h4>
+
+
+<EditForm EditContext="CntxtEditarEquipoForm" FormName="EditarEquipoForm" >
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="EquipoEditarDto.Nombre" @attributes="DeactivaFormComps" class="form-control" id="NombreEquipo" placeholder="Nombre del Equipo" />
+        <label for="NombreEquipo">Nombre del Equipo</label>
+    </div>
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="EquipoEditarDto.Iglesia" @attributes="DeactivaFormComps" class="form-control" id="IglesiaEquipo" placeholder="Iglesia" />
+        <label for="IglesiaEquipo">Iglesia</label>
+    </div>
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="EquipoEditarDto.Zona" @attributes="DeactivaFormComps" class="form-control" id="ZonaEquipo" placeholder="Zona" />
+        <label for="ZonaEquipo">Zona</label>
+    </div>
+    <div class="form-group mb-3">
+        <div class="row g-3">
+            <div class="col">
+                <InputFile @ref="LogoRef" OnChange="@OnInputFileChange" @attributes="DeactivaFormComps" class="form-control" id="ZonaEquipo" placeholder="Logo" />
+            </div>
+            <div class="col">
+                <img @ref="LogoPrevisualizador" class="img-thumbnail" style="max-width:150px;max-height:150px" alt="Logo Equipo">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-outline-info" @attributes="DeactivaFormComps">Crear</button>
+    </div>
+</EditForm>
+
+<hr />
+
+@if (IsLoading)
+{
+    <Cargador />
+}
+
+@if (RequestFromEquipoApi is not null)
+{
+    if (RequestFromEquipoApi.IsSuccess)
+    {
+        <div class="alert alert-info">
+            @RequestFromEquipoApi.StatusMessage
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            @RequestFromEquipoApi.StatusMessage
+        </div>
+    }
+}
+
+@code {
+    [Parameter]
+    public int? IdEquipo { get; set; }
+
+    [SupplyParameterFromForm]
+    EquipoDTO EquipoEditarDto { get; set; } = new();
+
+    EditContext? CntxtEditarEquipoForm;
+
+    string? EstatusMessage { get; set; }
+    UploadResult? LogoSubir;
+    InputFileChangeEventArgs? ArchivoListoParaSubir;
+
+    InputFile? LogoRef;
+    ElementReference? LogoPrevisualizador;
+
+    RequestData<EquipoDTO>? RequestFromEquipoApi;
+    bool IsLoading;
+    Dictionary<string, object> DeactivaFormComps = new Dictionary<string, object>();
+
+    private bool shouldRender;
+
+    protected override async Task OnInitializedAsync()
+    {       
+
+        CntxtEditarEquipoForm = new(EquipoEditarDto);
+
+        if (IdEquipo is not null && IdEquipo > 0)
+        {
+            if (Http.BaseAddress is null)
+            {
+                Http.BaseAddress = new Uri(Navi.BaseUri);
+            }
+            IsLoading = true;
+            var resultado = await Http.GetFromJsonAsync<RequestData<EquipoDTO>>($"api/equipos/{IdEquipo}");
+            if (resultado is not null)
+            {
+                if (resultado.IsSuccess && resultado.Data is not null)
+                {
+                    EquipoEditarDto = resultado.Data;
+                    IsLoading = false;
+                }
+            }
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    // protected override bool ShouldRender() => shouldRender;
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        ArchivoListoParaSubir = e;
+        await ShowPreview();
+    }
+
+    // async Task SubirArchivoSeleccionado()
+    // {
+    //     if (ArchivoListoParaSubir is not null)
+    //     {
+    //         shouldRender = false;
+    //         long maxFileSize = 1024 * 1024 * 15;
+
+    //         using var content = new MultipartFormDataContent();
+    //         try
+    //         {
+    //             var fileContent = new StreamContent(ArchivoListoParaSubir.File.OpenReadStream(maxFileSize));
+    //             fileContent.Headers.ContentType = new MediaTypeHeaderValue(ArchivoListoParaSubir.File.ContentType);
+
+    //             content.Add(content: fileContent,
+    //                         name: "\"logoArchivo\"",
+    //                         fileName: ArchivoListoParaSubir.File.Name);
+
+    //             if (Http.BaseAddress is null)
+    //             {
+    //                 Http.BaseAddress = new Uri(Navi.BaseUri);
+    //             }
+
+    //             var response = await Http.PostAsync("api/guardarlogo", content);
+    //             if (response.IsSuccessStatusCode)
+    //             {
+    //                 var newUploadResults = await response.Content.ReadFromJsonAsync<UploadResult>();
+    //                 if (newUploadResults is not null)
+    //                 {
+    //                     LogoSubir = newUploadResults;
+    //                 }
+    //             }
+    //             shouldRender = true;
+    //         }
+    //         catch (Exception Ex)
+    //         {
+    //             LogoSubir = new()
+    //                 {
+    //                     FileName = ArchivoListoParaSubir.File.Name,
+    //                     ErrorCode = 5,
+    //                     Uploaded = false
+    //                 };
+
+    //             Logger.LogInformation("{FileName} not uploaded (Err: 5): {Message}", ArchivoListoParaSubir.File.Name, Ex.Message);
+    //         }
+    //     }
+    // }
+
+    private async Task ShowPreview() => await JS.InvokeVoidAsync(
+        "previewImage", LogoRef!.Element, LogoPrevisualizador);
+
+    private void EstadoActivoFormComps(bool Estado)
+    {
+        if (Estado)
+        {
+            if (DeactivaFormComps.ContainsKey("disabled"))
+            {
+                DeactivaFormComps.Remove("disabled");
+            }
+        }
+        else
+        {
+            DeactivaFormComps.TryAdd("disabled", true);
+        }
+    }
+}

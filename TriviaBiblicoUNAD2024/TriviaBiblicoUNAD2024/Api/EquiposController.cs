@@ -1,8 +1,10 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SNashENGINE.Share.Datos;
 using SNashENGINE.Share.DTOs.Equipo;
 using SNashENGINE.Share.DTOs.Participantes;
+using TriviaBiblicoUNAD2024.Components.Comps;
 using TriviaBiblicoUNAD2024.Data.Modelos.Equipos;
 using TriviaBiblicoUNAD2024.Servicios.Interfaces;
 
@@ -53,16 +55,52 @@ namespace TriviaBiblicoUNAD2024.Api
 
         // GET api/<EquiposController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<RequestData<EquipoDTO>?>> Get(int id)
         {
-            return "value";
+            var resultado = await EquipoSrv.GetByIdAsync(id);
+            if (resultado is not null)
+            {
+                return new RequestData<EquipoDTO>
+                {
+                    IsSuccess = true,
+                    Data = resultado.Adapt<EquipoDTO>(),
+                    StatusMessage = null
+                };
+            }
+
+            return new RequestData<EquipoDTO>
+            {
+                IsSuccess = true,
+                Data = null,
+                StatusMessage = "No exiten registro que coincida"
+            };
         }
 
         // POST api/<EquiposController>
         [HttpPost]
-        public void Post([FromBody] EquipoInsertarDTO? EquipoDto)
+        public async Task<ActionResult<RequestData<EquipoDTO>?>> Post([FromBody] EquipoInsertarDTO? EquipoParaInsertarDto)
         {
-           
+            RequestData<EquipoDTO>? ResultadoRequest = new RequestData<EquipoDTO>();
+            if (EquipoParaInsertarDto is not null)
+            {
+                EquipoModel EquipoModeloParaInsertar = EquipoParaInsertarDto.Adapt<EquipoModel>();
+                int resultado = await EquipoSrv.CreateAsync(EquipoModeloParaInsertar);
+                if (resultado > 0)
+                {
+                    ResultadoRequest.Data = EquipoModeloParaInsertar.Adapt<EquipoDTO>();
+                    ResultadoRequest.IsSuccess = true;
+                    ResultadoRequest.StatusMessage = "Equipo Creado!!";
+                    return ResultadoRequest;
+                }
+
+                ResultadoRequest.Data = EquipoParaInsertarDto.Adapt<EquipoDTO>();
+                ResultadoRequest.IsSuccess = false;
+                ResultadoRequest.StatusMessage = "Error al intentar guardar el registro...";
+
+                return ResultadoRequest;
+            }
+
+            return ResultadoRequest;
         }
 
         // PUT api/<EquiposController>/5
@@ -75,6 +113,13 @@ namespace TriviaBiblicoUNAD2024.Api
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        //devolver tabla con el componente QuickGrid
+        [HttpGet("tabla")]
+        public IResult GetListaEquipos()
+        {
+            return new RazorComponentResult<EquiposQuickGrid>();
         }
     }
 }
