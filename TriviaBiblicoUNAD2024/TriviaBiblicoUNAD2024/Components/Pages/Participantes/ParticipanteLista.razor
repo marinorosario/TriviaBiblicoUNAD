@@ -1,0 +1,35 @@
+﻿@page "/participantes"
+@using TriviaBiblicoUNAD2024.Data.Modelos.Participantes
+@using TriviaBiblicoUNAD2024.Servicios.Interfaces
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+@inject IDataEngineService<ParticipanteModel> ParticipantesSrv
+
+@attribute [StreamRendering]
+@rendermode @(new InteractiveServerRenderMode(prerender: true) )
+
+<h3>ParticipanteLista</h3>
+
+<a href="participante-crear" class="btn btn-sm btn-outline-info">Crear</a>
+
+<QuickGrid Items="Participantes" Theme="default" Class="table table-hover table-borderless">
+    <PropertyColumn Property="@(x => x.Nombre )" Title="Nombres" Sortable="true" />
+    <PropertyColumn Property="@(x => x.Apellidos )" Title="Apellidos" Sortable="true" />
+    <PropertyColumn Property="@(x => x.Sexo)" Title="Sexo" Sortable="true" />
+    <PropertyColumn Property="@(x => x.Estado)" Title="Estado" Sortable="true" />
+     <TemplateColumn Title="Fecha de Nacimiento" Context="partic">
+         <span>@partic.FechaNac (@partic.Edad Años)</span>
+     </TemplateColumn>
+    <PropertyColumn Property="@(x => x.Equipo.Nombre)" Title="Equipo" Sortable="true" />
+</QuickGrid>
+
+@code {
+    IQueryable<ParticipanteModel>? ParticipantesMaster;
+    IQueryable<ParticipanteModel>? Participantes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ParticipantesMaster = ParticipantesSrv.GetQueriable;
+        await base.OnInitializedAsync();
+    }
+}

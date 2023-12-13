@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace SNashENGINE.Share
 {
-    internal class Kadomony
+    public class Kadomony
     {
+        public static DateOnly HoySoloFecha => DateOnly.FromDateTime(DateTime.Today);
+        public static DateTime Hoy => DateTime.Today;
+        public static DateTime Ahora => DateTime.Now;
+        public static TimeOnly AhoraSoloTiempo => TimeOnly.FromDateTime(DateTime.Now);
     }
 }

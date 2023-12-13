@@ -114,7 +114,6 @@
                 }
             }
         }
-
         await base.OnInitializedAsync();
     }
 
@@ -126,52 +125,52 @@
         await ShowPreview();
     }
 
-    // async Task SubirArchivoSeleccionado()
-    // {
-    //     if (ArchivoListoParaSubir is not null)
-    //     {
-    //         shouldRender = false;
-    //         long maxFileSize = 1024 * 1024 * 15;
+    async Task SubirArchivoSeleccionado()
+    {
+        if (ArchivoListoParaSubir is not null)
+        {
+            shouldRender = false;
+            long maxFileSize = 1024 * 1024 * 15;
 
-    //         using var content = new MultipartFormDataContent();
-    //         try
-    //         {
-    //             var fileContent = new StreamContent(ArchivoListoParaSubir.File.OpenReadStream(maxFileSize));
-    //             fileContent.Headers.ContentType = new MediaTypeHeaderValue(ArchivoListoParaSubir.File.ContentType);
+            using var content = new MultipartFormDataContent();
+            try
+            {
+                var fileContent = new StreamContent(ArchivoListoParaSubir.File.OpenReadStream(maxFileSize));
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(ArchivoListoParaSubir.File.ContentType);
 
-    //             content.Add(content: fileContent,
-    //                         name: "\"logoArchivo\"",
-    //                         fileName: ArchivoListoParaSubir.File.Name);
+                content.Add(content: fileContent,
+                            name: "\"logoArchivo\"",
+                            fileName: ArchivoListoParaSubir.File.Name);
 
-    //             if (Http.BaseAddress is null)
-    //             {
-    //                 Http.BaseAddress = new Uri(Navi.BaseUri);
-    //             }
+                if (Http.BaseAddress is null)
+                {
+                    Http.BaseAddress = new Uri(Navi.BaseUri);
+                }
 
-    //             var response = await Http.PostAsync("api/guardarlogo", content);
-    //             if (response.IsSuccessStatusCode)
-    //             {
-    //                 var newUploadResults = await response.Content.ReadFromJsonAsync<UploadResult>();
-    //                 if (newUploadResults is not null)
-    //                 {
-    //                     LogoSubir = newUploadResults;
-    //                 }
-    //             }
-    //             shouldRender = true;
-    //         }
-    //         catch (Exception Ex)
-    //         {
-    //             LogoSubir = new()
-    //                 {
-    //                     FileName = ArchivoListoParaSubir.File.Name,
-    //                     ErrorCode = 5,
-    //                     Uploaded = false
-    //                 };
+                var response = await Http.PostAsync("api/guardarlogo", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var newUploadResults = await response.Content.ReadFromJsonAsync<UploadResult>();
+                    if (newUploadResults is not null)
+                    {
+                        LogoSubir = newUploadResults;
+                    }
+                }
+                shouldRender = true;
+            }
+            catch (Exception Ex)
+            {
+                LogoSubir = new()
+                    {
+                        FileName = ArchivoListoParaSubir.File.Name,
+                        ErrorCode = 5,
+                        Uploaded = false
+                    };
 
-    //             Logger.LogInformation("{FileName} not uploaded (Err: 5): {Message}", ArchivoListoParaSubir.File.Name, Ex.Message);
-    //         }
-    //     }
-    // }
+                Logger.LogInformation("{FileName} not uploaded (Err: 5): {Message}", ArchivoListoParaSubir.File.Name, Ex.Message);
+            }
+        }
+    }
 
     private async Task ShowPreview() => await JS.InvokeVoidAsync(
         "previewImage", LogoRef!.Element, LogoPrevisualizador);
